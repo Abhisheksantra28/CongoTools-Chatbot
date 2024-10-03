@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import axios from "axios";
 
+const SERVER = process.env.SERVER_URL;
+
 // Convert File to Buffer
 async function fileToBuffer(file: File): Promise<Buffer> {
   const arrayBuffer = await file.arrayBuffer();
@@ -87,15 +89,14 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-
     const audioBuffer = await fileToBuffer(audio);
 
     // Perform speech-to-text conversion
     const transcription = await performSpeechToText(audioBuffer);
     console.log("Transcribed Text:", transcription);
-
+    console.log("endpoint url", req.nextUrl.origin);
     // Store the transcript
-    const { data } = await axios.post(`${req.nextUrl.origin}/api/transcript`, {
+    const { data } = await axios.post(`${SERVER}/api/transcript`, {
       transcript: transcription,
     });
 
