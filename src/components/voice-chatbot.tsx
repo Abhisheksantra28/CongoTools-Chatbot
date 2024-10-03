@@ -422,14 +422,20 @@ const VoiceChatbot: React.FC = () => {
       }
 
       // const url = URL.createObjectURL(new Blob([data], { type: "audio/mpeg" }));
+
+      const transcriptResponse = await axios.get("/api/transcript");
+      console.log("Transcript response:", transcriptResponse.data.transcript);
+      setTranscript(transcriptResponse.data.transcript);
+
+
       const url = URL.createObjectURL(data);
       setAudioUrl(url);
       setIsProcessing(false);
 
       // Fetch the transcript
-      const transcriptResponse = await axios.get("/api/transcript");
-      console.log("Transcript response:", transcriptResponse.data.transcript);
-      setTranscript(transcriptResponse.data.transcript);
+      // const transcriptResponse = await axios.get("/api/transcript");
+      // console.log("Transcript response:", transcriptResponse.data.transcript);
+      // setTranscript(transcriptResponse.data.transcript);
     } catch (error) {
       console.error("Error sending audio to server:", error);
       setError(
